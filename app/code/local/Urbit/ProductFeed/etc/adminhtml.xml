@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <urbit>
+            <title>Urbit</title>
+            <sort_order>100</sort_order>
+            <children>
+                <productfeedbackend module="productfeed">
+                    <title>Product Feed</title>
+                    <sort_order>0</sort_order>
+                    <action>admin_productfeed/adminhtml_productfeedbackend</action>
+                </productfeedbackend>
+            </children>
+        </urbit>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <productfeed translate="title" module="productfeed">
+                        <title>ProductFeed</title>
+                        <sort_order>1000</sort_order>
+                        <children>
+                            <productfeedbackend translate="title">
+                                <title>Urbit Product Feed</title>
+                            </productfeedbackend>
+                        </children>
+                    </productfeed>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <productfeed_config>
+                                        <title>Product Feed</title>
+                                    </productfeed_config>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <layout>
+        <updates>
+            <productfeed>
+                <file>urbit/productfeed.xml</file>
+            </productfeed>
+        </updates>
+    </layout>
+</config>

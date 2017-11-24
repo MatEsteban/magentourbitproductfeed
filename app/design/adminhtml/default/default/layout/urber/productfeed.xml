@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<productfeed_adminhtml_productfeedbackend_index>
+		<reference name="content">
+			<block type="productfeed/adminhtml_productfeedbackend"
+			   	name="productfeedbackend"
+			   	template="urbit/productfeed/productfeedbackend.phtml"
+			/>
+		</reference>
+	</productfeed_adminhtml_productfeedbackend_index>
+</layout>

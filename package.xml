@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Urbit_ProductFeed</name>
+    <version>1.0.2</version>
+    <stability>stable</stability>
+    <license uri="https://opensource.org/licenses/gpl-license">GPL</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Urbit Product Feed</summary>
+    <description>One of many methods of delivering product data to the Urb-it platform.</description>
+    <notes>Stable 1.0.2 version</notes>
+    <authors><author><name>Urb-it</name><user>Urb-it</user><email>support@urbit.com</email></author></authors>
+    <date>2017-11-22</date>
+    <time>09:39:55</time>
+    <contents><target name="magelocal"><dir name="Urbit"><dir name="ProductFeed"><dir name="Helper"><file name="Data.php" hash="06d96086e4cccb29da5a985d89ffc85a"/><file name="Feed.php" hash="4da00d8a1b4b08a132df6ad89c24f041"/></dir><dir name="Model"><dir name="Config"><file name="Abstract.php" hash="d39c514b75a4e3c14df373d61517137c"/><file name="Attribute.php" hash="dd24acc0a52f89f08b8da97fbcd2a16b"/><file name="Category.php" hash="1c8d13b287b341cc195c70ce9fd27421"/><file name="Tag.php" hash="83cd6943b7c693ea7448b33244d427f2"/></dir><file name="Config.php" hash="718acb7ec16b81e0aa4f2f331a6d3131"/><file name="Cron.php" hash="c015996fce80f57143896f1966e2725e"/><dir name="Feed"><file name="Product.php" hash="91de4ba5cc2f3c77c80de8dd994d5647"/></dir><file name="Feed.php" hash="4401dfd002b3f8241f77bedc85ab7e67"/><dir name="List"><file name="Product.php" hash="eecec8930fb66427f658f39f1388c120"/></dir></dir><dir name="controllers"><dir name="Adminhtml"><file name="ProductfeedbackendController.php" hash="3396bb93199a5ef6c8cecc1f31772618"/></dir><file name="IndexController.php" hash="e51ab30da9eee26bb12ac984f2a96107"/></dir><dir name="etc"><file name="adminhtml.xml" hash="90d9565a21af8a244c7085724355d40a"/><file name="config.xml" hash="bbddd37f2317c860866ed986b01f06d1"/><file name="system.xml" hash="5b81d40984839b07121b59bd628c9db6"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Urbit_ProductFeed.xml" hash="169cdb419b74154b7f7bfa8bdade287f"/></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><dir name="urber"><file name="productfeed.xml" hash="258827bb6bf96936a23256bb8666a8f7"/></dir></dir><dir name="template"><dir name="urbit"><dir name="productfeed"><file name="productfeedbackend.phtml" hash="0dc894c9c1187d41f2b6df80bbc68f20"/></dir></dir></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

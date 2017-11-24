@@ -1,0 +1,329 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <urbit translate="label"  module="productfeed">
+            <label>Urbit</label>
+            <sort_order>200</sort_order>
+        </urbit>
+    </tabs>
+
+    <!-- Plugin config page fields -->
+
+    <sections>
+        <productfeed_config translate="label" module="productfeed">
+            <label>Product Feed</label>
+            <tab>urbit</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <!-- Cache -->
+
+                <cron translate="label">
+                    <label>Feed Cache</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <cache_duration>
+                            <label>Cache duration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Cache live time (in hours)</comment>
+                        </cache_duration>
+                    </fields>
+                </cron>
+
+                <!-- Feed Data Filter -->
+
+                <filter translate="label">
+                    <label>Product Filter</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <category>
+                            <label>Categories</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>productfeed/config_category</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment></comment>
+                        </category>
+                        <tag>
+                            <label>Tags</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>productfeed/config_tag</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment></comment>
+                        </tag>
+                        <stock>
+                            <label>Minimal Stock</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                        </stock>
+                    </fields>
+                </filter>
+                <tax>
+                    <label>Taxes</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <tax_country>
+                            <label>Tax Country</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </tax_country>
+                    </fields>
+                </tax>
+
+                <!-- Associate feed fields with product attributes -->
+
+                <fields>
+                    <label>Product Fields</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>4</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <!-- Dimentions -->
+                        <dimention_headig translate="label">
+                            <label>Product Dimentions</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </dimention_headig>
+                        <dimention_height>
+                            <label>Height</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dimention_height>
+                        <dimention_length>
+                            <label>Length</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dimention_length>
+                        <dimention_width>
+                            <label>Width</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dimention_width>
+
+                        <!-- Dimention units -->
+                        <units translate="label">
+                            <label>Units</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </units>
+                        <dimention_unit>
+                            <label>Dimention unit</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dimention_unit>
+                        <weight_unit>
+                            <label>Weight unit</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </weight_unit>
+			
+                        <!-- Inventory -->
+
+                        <inventory_label>
+                            <label>Product Inventory</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </inventory_label>
+                        <ean>
+                            <label>EAN/UPC code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ean>
+                        <mpn>
+                            <label>MPN</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Manufacturer Product Number/Code</comment>
+                        </mpn>
+
+                        <!-- Parameters -->
+
+                        <parameters_label>
+                            <label>Product parameters</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </parameters_label>
+                        <color>
+                            <label>Color</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </color>
+                        <size>
+                            <label>Size</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </size>
+                        <gender>
+                            <label>Gender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </gender>
+                        <material>
+                            <label>Material</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </material>
+                        <pattern>
+                            <label>Pattern</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pattern>
+                        <age_group>
+                            <label>Age Group</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>36</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </age_group>
+                        <condition>
+                            <label>Condition</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>37</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </condition>
+                        <sizeType>
+                            <label>Size Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>38</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sizeType>
+                        <brands>
+                            <label>Brands</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>39</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </brands>
+
+                        <!-- Additional attributes -->
+
+                        <attributes_label>
+                            <label>Additional attributes</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </attributes_label>
+                        <attributes>
+                            <label>Additional product attributes to show in feed</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>productfeed/config_attribute</source_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>in "attribute" feed field</comment>
+                        </attributes>
+                    </fields>
+                </fields>
+            </groups>
+        </productfeed_config>
+    </sections>
+</config>
