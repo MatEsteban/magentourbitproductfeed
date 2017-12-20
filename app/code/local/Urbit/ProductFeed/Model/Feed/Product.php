@@ -151,11 +151,6 @@ class Urbit_ProductFeed_Model_Feed_Product
      */
     public function process()
     {
-
-        if (!$this->isSimple || !$this->isPositiveQuantity) {
-            return false;
-        }
-
         $product = $this->product;
 
         $this->processId();
@@ -526,7 +521,6 @@ class Urbit_ProductFeed_Model_Feed_Product
             $attributes[] = array(
                 'name'  => $code,
                 'type'  => $type,
-                //'unit'  => null,
                 'value' => $value,
             );
         }

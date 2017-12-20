@@ -62,6 +62,16 @@
 		</routers>
 	</admin>
 
+	 <adminhtml>
+        <layout>
+            <updates>
+                <urbit_productfeed>
+                    <file>urbit_productfeed.xml</file>
+                </urbit_productfeed>                
+            </updates>
+        </layout>
+    </adminhtml>
+
 	<!-- CRON -->
 
 	<crontab>
@@ -87,6 +97,7 @@
 			<filter>
 				<category></category>
 				<tag></tag>
+				<product_id></product_id>
 				<stock>0</stock>
 			</filter>
 			<fields>
