@@ -47,6 +47,7 @@ class Urbit_ProductFeed_Model_Feed
         $products = array();
 
         foreach ($this->collection as $product) {
+            
             $feedProduct = Mage::getModel("productfeed/feed_product", $product);
 
             if ($feedProduct->process()) {

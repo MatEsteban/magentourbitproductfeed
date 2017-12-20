@@ -94,6 +94,18 @@ class Urbit_ProductFeed_Model_List_Product implements IteratorAggregate
                 $this->_products->getSelect()->group('e.entity_id');
             }
 
+            /*
+             * result product filter
+             */
+            if ($filter['product_id'] && !empty(['product_id'])) {
+                $ids = explode(',', $filter['product_id']);
+                $this->_products->addAttributeToFilter('entity_id', array('in' => $ids));
+            }
+
+            /**
+             * type filter (show only simple product)
+             */
+            $this->_products->addAttributeToFilter('type_id', array('eq' => 'simple'));
         }
 
         return $this->_products;
