@@ -1,11 +1,15 @@
 <?xml version="1.0"?>
-<layout version="0.1.0">
-	<productfeed_adminhtml_productfeedbackend_index>
+<layout>
+	<adminhtml_system_config_edit >
+		 <reference name="head">
+      			<action method="addJs"><script>urbit/ProductFeed/jquery-1.11.0.min.js</script></action>
+      			<action method="addJs"><script>urbit/ProductFeed/multiselect.min.js</script></action>
+    		</reference>
 		<reference name="content">
 			<block type="productfeed/adminhtml_productfeedbackend"
 			   	name="productfeedbackend"
 			   	template="urbit/productfeed/productfeedbackend.phtml"
 			/>
 		</reference>
-	</productfeed_adminhtml_productfeedbackend_index>
+	</adminhtml_system_config_edit>
 </layout>
