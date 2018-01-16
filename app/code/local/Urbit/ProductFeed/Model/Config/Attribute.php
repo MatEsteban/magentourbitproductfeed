@@ -11,40 +11,26 @@ class Urbit_ProductFeed_Model_Config_Attribute extends Urbit_ProductFeed_Model_C
      */
     public function toOptionArray()
     {
-        /** @var Mage_Catalog_Model_Resource_Product_Attribute_Collection $collection */
-        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
-            ->addFieldToSelect("*")
-            ->setOrder('frontend_label', Varien_Data_Collection::SORT_ORDER_ASC)
-        ;
+        $FieldAttribute = Mage::getModel("productfeed/feed_fields_fieldAttribute");
+        $FieldCalculated = Mage::getModel("productfeed/feed_fields_fieldCalculated");
+        $FieldDB = Mage::getModel("productfeed/feed_fields_fieldDB");
 
-
-        $list = $collection
-            ->load()
-            ->toArray()
-        ;
-
-        $attributes = array(
+        return array_merge(
             array(
-                'value' => '',
-                'label' => 'Not setted',
+                array(
+                    'value' => '',
+                    'label' => '------ None ------',
+                ),
             ),
+            $FieldCalculated->getOptions(),
+            $FieldDB->getOptions(),
+            $FieldAttribute->getOptions(),
+            array(
+                array(
+                    'value' => 'empty',
+                    'label' => '------ None ------',
+                ),
+            )
         );
-
-        foreach ($list['items'] as $attr) {
-            if (!isset($attr['is_user_defined']) || !isset($attr['attribute_code']) || !isset($attr['frontend_label'])) {
-                continue;
-            }
-
-            $hasLabel = strlen(trim($attr['frontend_label']));
-
-            if ($hasLabel) {
-                $attributes[] = array(
-                    'value' => $attr['attribute_code'],
-                    'label' => $attr['frontend_label'],
-                );
-            }
-        }
-
-        return $attributes;
     }
 }

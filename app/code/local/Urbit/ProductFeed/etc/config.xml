@@ -101,10 +101,14 @@
 				<stock>0</stock>
 			</filter>
 			<fields>
+				<product_name></product_name>
+				<product_description></product_description>
+				<product_id></product_id>
 				<dimention_height></dimention_height>
 				<dimention_length></dimention_length>
 				<dimention_width></dimention_width>
 				<dimention_unit></dimention_unit>
+				<dimention_weight></dimention_weight>
 				<weight_unit></weight_unit>
 				<ean></ean>
 				<mpn></mpn>

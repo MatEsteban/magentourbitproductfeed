@@ -33,6 +33,9 @@
  */
 class Urbit_ProductFeed_Model_Feed_Product
 {
+    const DEFAULT_UNIT = 'cm';
+    const DEFAULT_WEIGHT_UNIT = 'kg';
+
     /**
      * Array with product fields
      * @var array
@@ -52,6 +55,11 @@ class Urbit_ProductFeed_Model_Feed_Product
     protected $resource;
 
     /**
+     * @var Urbit_ProductFeed_Model_Feed_Fields_Factory
+     */
+    protected $fieldFactory;
+
+    /**
      * Urbit_ProductFeed_Model_Feed_Product constructor.
      * @param Mage_Catalog_Model_Product $product
      */
@@ -59,6 +67,7 @@ class Urbit_ProductFeed_Model_Feed_Product
     {
         $this->product = $product->load($product->getId());
         $this->resource = $product->getResource();
+        $this->fieldFactory = Mage::getModel("productfeed/feed_fields_factory");
     }
 
     /**
@@ -101,7 +110,6 @@ class Urbit_ProductFeed_Model_Feed_Product
      */
     public function __set($name, $value)
     {
-
         $setMethod = "set{$name}";
 
         if (method_exists($this, $setMethod)) {
@@ -151,13 +159,11 @@ class Urbit_ProductFeed_Model_Feed_Product
      */
     public function process()
     {
-        $product = $this->product;
-
         $this->processId();
-        $this->name = $product->getName();
-        $this->description = $product->getDescription();
-        $this->link = $product->getProductUrl();
-
+        $this->processName();
+        $this->processDescription();
+        $this->processLink();
+        $this->processDimensions();
         $this->processPrices();
         $this->processCategories();
         $this->processImages();
@@ -169,14 +175,72 @@ class Urbit_ProductFeed_Model_Feed_Product
     }
 
     /**
+     * Returns config value for key
+     * @param string $groupName
+     * @param string $name
+     * @return mixed
+     */
+    protected function getConfigValue($groupName, $name)
+    {
+        $fields = $this->model("productfeed/config", 'get', $groupName);
+
+        return isset($fields[$name]) ? $fields[$name] : null;
+    }
+
+    /**
+     * @param string $groupName
+     * @param string $name
+     * @return mixed
+     */
+    protected function _processAttribute($groupName, $name)
+    {
+        $configValue = $this->getConfigValue($groupName, $name);
+
+        if (empty($configValue) || $configValue == 'none' || $configValue == 'empty') {
+            return false;
+        }
+
+        return $this->fieldFactory->processAttribute($this, $configValue);
+    }
+
+    /**
      * Process product id
      */
     protected function processId()
     {
-        $product = $this->product;
-        $sku = $product->getSku();
+        if ($id = $this->_processAttribute('fields', 'product_id')) {
+            $this->id = $id;
+        }
+    }
 
-        $this->id = ($sku) ? $sku : (string)$product->getId();
+    /**
+     * Process product name
+     */
+    protected function processName()
+    {
+        if ($name = $this->_processAttribute('fields', 'product_name')) {
+            $this->name = $name;
+        }
+    }
+
+    /**
+     * Process product description
+     */
+    protected function processDescription()
+    {
+        if ($description = $this->_processAttribute('fields', 'product_description')) {
+            $this->description = $description;
+        }
+    }
+
+    /**
+     * Process product link
+     */
+    protected function processLink()
+    {
+        if ($link = $this->_processAttribute('fields', 'product_link')) {
+            $this->link = $link;
+        }
     }
 
     /**
@@ -184,6 +248,7 @@ class Urbit_ProductFeed_Model_Feed_Product
      */
     protected function processPrices()
     {
+        /** @var Mage_Catalog_Model_Product $product */
         $product = $this->product;
 
         // get tax country from module config
@@ -377,11 +442,36 @@ class Urbit_ProductFeed_Model_Feed_Product
     }
 
     /**
+     * Process dimensions
+     */
+    protected function processDimensions()
+    {
+        $dimensions = array();
+
+        foreach (array('height', 'length', 'width', 'weight') as $key) {
+            $keyValue = "dimention_{$key}";
+            $keyUnit = "{$key}_unit";
+
+            if ($value = $this->_processAttribute('fields', $keyValue)) {
+                $unit = $this->_processAttribute('fields', $keyUnit) ?: ($key == 'weight' ? static::DEFAULT_WEIGHT_UNIT : static::DEFAULT_UNIT);
+
+                $dimensions[$key] = array(
+                    'value' => is_numeric($value) ? (float)$value : $value,
+                    'unit'  => $unit,
+                );
+            }
+        }
+
+        if (!empty($dimensions)) {
+            $this->dimensions = $dimensions;
+        }
+    }
+
+    /**
      * Process configurable fields (associated custom product attributes)
      */
     protected function processConfigurableFields()
     {
-
         $fields = $this->model("productfeed/config", 'get', 'fields');
 
         $brand = $this->getAttributeValue($fields['brands']);
@@ -392,41 +482,6 @@ class Urbit_ProductFeed_Model_Feed_Product
                     'name' => $brand,
                 ),
             );
-        }
-
-        $dimensions = array();
-
-        $weight = (float)$this->product->getWeigth();
-
-        if ($weight > 0) {
-
-            $dimensions['weight'] = array(
-                'value' => $weight,
-                'unit'  => $this->getAttributeValue($fields['weight_unit']),
-            );
-        }
-
-        foreach (array('height', 'length', 'width') as $key) {
-            $keyField = "dimention_{$key}";
-
-            if (!isset($fields[$keyField]) || !$fields[$keyField]) {
-                continue;
-            }
-
-            $attr = $this->getAttributeValue($fields[$keyField]);
-
-            if (!$attr || $attr <= 0) {
-                continue;
-            }
-
-            $dimensions[$key] = array(
-                'value' => (float)$attr,
-                'unit'  => $this->getAttributeValue($fields['dimention_unit']),
-            );
-        }
-
-        if (!empty($dimensions)) {
-            $this->dimensions = $dimensions;
         }
 
         foreach (array("ean", "mpn", "sizeType", "size", "color", "gender", "material", "pattern", "age_group", "condition") as $key) {
@@ -596,5 +651,10 @@ class Urbit_ProductFeed_Model_Feed_Product
         }
 
         return $attr->getFrontend()->getValue($this->product);
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
     }
 }
