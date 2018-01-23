@@ -34,7 +34,9 @@
 class Urbit_ProductFeed_Model_Feed_Product
 {
     const DEFAULT_UNIT = 'cm';
-    const DEFAULT_WEIGHT_UNIT = 'kg';
+    const DEFAULT_WEIGHT_UNIT_G = 'g';
+    const DEFAULT_WEIGHT_UNIT_KG = 'kg';
+    const DEFAULT_WEIGHT_UNIT_TON = 'ton';
 
     /**
      * Array with product fields
@@ -448,12 +450,17 @@ class Urbit_ProductFeed_Model_Feed_Product
     {
         $dimensions = array();
 
-        foreach (array('height', 'length', 'width', 'weight') as $key) {
+        if ($value = $this->_processAttribute('fields', "dimention_weight")) {
+            $unit = $this->_processAttribute('fields', "weight_unit");
+            $dimensions['weight'] = $this->prepareWeight($value, $unit);
+        }
+
+        foreach (array('height', 'length', 'width') as $key) {
             $keyValue = "dimention_{$key}";
             $keyUnit = "{$key}_unit";
 
             if ($value = $this->_processAttribute('fields', $keyValue)) {
-                $unit = $this->_processAttribute('fields', $keyUnit) ?: ($key == 'weight' ? static::DEFAULT_WEIGHT_UNIT : static::DEFAULT_UNIT);
+                $unit = $this->_processAttribute('fields', $keyUnit) ? : static::DEFAULT_UNIT;
 
                 $dimensions[$key] = array(
                     'value' => is_numeric($value) ? (float)$value : $value,
@@ -465,6 +472,54 @@ class Urbit_ProductFeed_Model_Feed_Product
         if (!empty($dimensions)) {
             $this->dimensions = $dimensions;
         }
+    }
+
+    /**
+     * Check product's weight unit. If !unit => choose correct default weight unit and convert weight value
+     * @param  float/string $value Current product's weight value
+     * @param  string $unit Current produc's weight unit 
+     * @return array Converted weight value and correct weight unit
+     */
+    protected function prepareWeight($value, $unit)
+    {
+        if (!$unit && is_numeric($value)) {
+            $floatValue = (float)$value;
+
+            if ($floatValue >= 1000000) {
+                $value = $this->convertWeightGramToTon($floatValue);
+                $unit = static::DEFAULT_WEIGHT_UNIT_TON; 
+            } elseif ($floatValue >= 1000) {
+                $value = $this->convertWeightGramToKg($floatValue);
+                $unit = static::DEFAULT_WEIGHT_UNIT_KG;
+            } else {
+                $unit = static::DEFAULT_WEIGHT_UNIT_G;
+            }
+        }
+
+        return array(
+            'value' => is_numeric($value) ? (float)$value : $value,
+            'unit'  => $unit,
+        );
+    }
+
+    /**
+     * Convert Weight in GRAMS to weight in KG
+     * @param  float weight in grams
+     * @return float wiehgt in kg
+     */
+    protected function convertWeightGramToKg($weight_in_grams)
+    {
+        return number_format($weight_in_grams / 1000, 2);
+    }
+
+    /**
+     * Convert Weight in GRAMS to weight in TONS
+     * @param  float weight in grams
+     * @return float wiehgt in tons
+     */
+    protected function convertWeightGramToTon($weight_in_grams)
+    {
+        return number_format($weight_in_grams / 1000000, 2);
     }
 
     /**
